@@ -1,12 +1,10 @@
 /**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/
- */
-
-/**
  * @type {import('gatsby').GatsbyConfig}
  */
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -15,28 +13,31 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
+    `gatsby-plugin-mdx`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        name: `statics`,
+        path: `${__dirname}/src/static`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
       },
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-typescript`,
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: `gatsby-source-notion-api`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        databaseId: process.env.NOTION_DATABSE_ID,
+        token: process.env.NOTION_SECRET,
+        propsToFrontmatter: true,
       },
     },
   ],
