@@ -13,6 +13,19 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: [
+          {
+            resolve: "gatsby-plugin-mdx",
+            options: {
+              extensions: [".md", ".mdx"],
+            },
+          },
+        ],
+      },
+    },
     `gatsby-plugin-mdx`,
     `gatsby-plugin-image`,
     {
